@@ -6,8 +6,8 @@
 #
 # More info here: https://github.com/Armoghans-Organization/Security-Patch-Manager
 #
-# Usage: ./script.sh
-# Example: ./script.sh
+# Usage: ./script.sh -h --help -v --version -r --root
+# Example: ./script.sh --root
 #
 
 ##########################################################################
@@ -31,6 +31,8 @@ Name="Security-Patch-Manager"
 Version="1.0.0"
 # Script Description
 Description="Manage Security Updates"
+# Script URL
+URL="https://github.com/Armoghans-Organization/Security-Patch-Manager"
 ##########################################################################
 # Functions
 ##########################################################################
@@ -44,7 +46,6 @@ print_message() {
 
 # Function to display exit message
 exit_message() {
-    clear
     print_linux_util_banner
     print_message "${BLUE}" "Thanks for using $Name by $Author."
     exit 0
@@ -55,8 +56,9 @@ trap exit_message INT
 
 # Display version information
 show_version() {
-    print_message "${GREEN}" "Script Version: $Version."
+    print_message "${GREEN}" "$Name Version: $Version"
     echo -e "${GREEN}"
+    exit 1
 }
 
 # Function to wait for Enter key press to continue
@@ -87,12 +89,48 @@ print_linux_util_banner() {
     clear
     cat banner.txt
     echo
-    print_message "${NC}------------------------------------------------${NC}"
+    print_message "${NC}---------------------------------------------------------------${NC}"
     print_message "${CYAN}Welcome to ${BLUE}$Name${NC}${CYAN} - $Description${NC}"
     print_message "${CYAN}Author:${NC}${BLUE}$Author${NC}"
-    print_message "${NC}------------------------------------------------${NC}"
+    print_message "${NC}---------------------------------------------------------------${NC}"
     echo
 }
+
+##########################################################################
+# Help Menu and Flags
+##########################################################################
+show_help() {
+    echo -e "${PURPLE}"
+    cat banner.txt
+    echo
+    print_message "${NC}" "$Name $Version ($URL)"
+    print_message "${NC}" "Author: $Author"
+    print_message "${NC}" "Description: $Description"
+    echo
+    print_message "${GREEN}" "Usage:${NC} $0 [${YELLOW}OPTIONS${NC}]"
+    echo
+    print_message "${CYAN}" "Options:"
+    print_message "${YELLOW}" "  -h, --help${NC}       Show this help message"
+    print_message "${YELLOW}" "  -r, --root${NC}       Run the script as root"
+    print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
+    exit 0
+    echo
+    echo
+}
+
+# Check for command-line options
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+    -h | --help) show_help ;;
+    -r | --root) RUN_AS_ROOT=true ;;
+    -v | --version) show_version ;;
+    *)
+        print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
+        exit 1
+        ;;
+    esac
+    shift
+done
 
 ##########################################################################
 # Main script logic goes here
