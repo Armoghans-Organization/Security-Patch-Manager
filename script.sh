@@ -66,10 +66,6 @@ press_enter() {
     clear
 }
 
-##########################################################################
-# Main script logic goes here
-##########################################################################
-
 # Function to print the contents of an ASCII banner from a file
 print_banner() {
     # Specify the path to the ASCII banner file
@@ -97,3 +93,7 @@ print_linux_util_banner() {
     print_message "${NC}------------------------------------------------${NC}"
     echo
 }
+
+##########################################################################
+# Main script logic goes here
+##########################################################################
