@@ -8,3 +8,10 @@
 ## Overview
 
 Security-Patch-Manager is a Bash script designed to streamline the process of managing system security updates on Linux-based environments. With a focus on simplicity and efficiency, this script automates the tasks of checking for available updates, displaying relevant information, and applying updates when desired.
+
+
+## Flags
+
+  - `-h, --help:` Show help message.
+  - `-r, --root:` Run the script as root.
+  - `-v, --version:` Display script version.

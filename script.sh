@@ -6,7 +6,7 @@
 #
 # More info here: https://github.com/Armoghans-Organization/Security-Patch-Manager
 #
-# Usage: ./script.sh -h --help -v --version -r --root
+# Usage: ./script.sh [OPTIONS]
 # Example: ./script.sh --root
 #
 
