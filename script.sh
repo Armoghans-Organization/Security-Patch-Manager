@@ -29,7 +29,8 @@ Author="Armoghan-ul-Mohmin"
 Name="Security-Patch-Manager"
 # Script Version
 Version="1.0.0"
-
+# Script Description
+Description="Manage Security Updates"
 ##########################################################################
 # Functions
 ##########################################################################
@@ -43,9 +44,14 @@ print_message() {
 
 # Function to display exit message
 exit_message() {
+    clear
+    print_linux_util_banner
     print_message "${BLUE}" "Thanks for using $Name by $Author."
     exit 0
 }
+
+# Trap Ctrl+C to display exit message
+trap exit_message INT
 
 # Display version information
 show_version() {
@@ -63,3 +69,31 @@ press_enter() {
 ##########################################################################
 # Main script logic goes here
 ##########################################################################
+
+# Function to print the contents of an ASCII banner from a file
+print_banner() {
+    # Specify the path to the ASCII banner file
+    banner_file="banner.txt"
+
+    # Check if the banner file exists
+    if [ -f "$banner_file" ]; then
+        # Print the contents of the ASCII banner file
+        cat "$banner_file"
+    else
+        # Print an error message if the banner file is not found
+        echo "Banner file not found: $banner_file"
+    fi
+}
+
+# Function to print the Linux-Util banner
+print_linux_util_banner() {
+    echo -e "${PURPLE}"
+    clear
+    cat banner.txt
+    echo
+    print_message "${NC}------------------------------------------------${NC}"
+    print_message "${CYAN}Welcome to ${BLUE}$Name${NC}${CYAN} - $Description${NC}"
+    print_message "${CYAN}Author:${NC}${BLUE}$Author${NC}"
+    print_message "${NC}------------------------------------------------${NC}"
+    echo
+}
