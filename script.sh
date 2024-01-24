@@ -48,7 +48,6 @@ print_message() {
 exit_message() {
     print_linux_util_banner
     print_message "${BLUE}" "Thanks for using $Name by $Author."
-    exit 0
 }
 
 # Trap Ctrl+C to display exit message
@@ -58,7 +57,6 @@ trap exit_message INT
 show_version() {
     print_message "${GREEN}" "$Name Version: $Version"
     echo -e "${GREEN}"
-    exit 1
 }
 
 # Function to wait for Enter key press to continue
@@ -96,6 +94,11 @@ print_linux_util_banner() {
     echo
 }
 
+# Run Ad Root
+RUN_AS_ROOT() {
+    sudo "$0" "$@"
+}
+
 ##########################################################################
 # Help Menu and Flags
 ##########################################################################
@@ -113,7 +116,6 @@ show_help() {
     print_message "${YELLOW}" "  -h, --help${NC}       Show this help message"
     print_message "${YELLOW}" "  -r, --root${NC}       Run the script as root"
     print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
-    exit 0
     echo
     echo
 }
@@ -122,11 +124,10 @@ show_help() {
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     -h | --help) show_help ;;
-    -r | --root) RUN_AS_ROOT=true ;;
+    -r | --root) RUN_AS_ROOT ;;
     -v | --version) show_version ;;
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
-        exit 1
         ;;
     esac
     shift
