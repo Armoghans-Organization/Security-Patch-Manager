@@ -86,7 +86,7 @@ print_banner() {
 print_linux_util_banner() {
     echo -e "${PURPLE}"
     clear
-    cat banner.txt
+    print_banner
     echo
     print_message "${NC}---------------------------------------------------------------${NC}"
     print_message "${CYAN}Welcome to ${BLUE}$Name${NC}${CYAN} - $Description${NC}"
