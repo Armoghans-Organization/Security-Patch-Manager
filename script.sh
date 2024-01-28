@@ -55,10 +55,10 @@ trap exit_message INT
 
 # Display version information
 show_version() {
-    print_message "${GREEN}" "$Name Version: $Version"
     echo -e "${GREEN}"
+    print_message "${GREEN}" "$Name Version: $Version"
+    exit 1
 }
-
 # Function to wait for Enter key press to continue
 press_enter() {
     echo -e "${YELLOW}Press Enter to continue...${NC}"
@@ -97,6 +97,7 @@ print_linux_util_banner() {
 # Run Ad Root
 RUN_AS_ROOT() {
     sudo "$0" "$@"
+    echo "hello hello"
 }
 
 ##########################################################################
@@ -136,3 +137,8 @@ done
 ##########################################################################
 # Main script logic goes here
 ##########################################################################
+
+print_linux_util_banner
+echo "hello"
+press_enter
+exit_message
