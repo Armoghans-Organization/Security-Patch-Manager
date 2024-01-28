@@ -48,6 +48,7 @@ print_message() {
 exit_message() {
     print_linux_util_banner
     print_message "${BLUE}" "Thanks for using $Name by $Author."
+    exit
 }
 
 # Trap Ctrl+C to display exit message
@@ -257,8 +258,25 @@ done
 RUN_AS_ROOT
 # Prints Banner
 print_linux_util_banner
-echo "Main Script Logic Goes Here"
-# Main Script Logic Goes Here
-press_enter
+print_message "${BLUE}" "Select an option:"
+print_message "${PURPLE}" "1. List available security updates"
+print_message "${PURPLE}" "2. Apply security updates"
+print_message "${PURPLE}" "3. Run 'apt autoclean'"
+print_message "${PURPLE}" "4. Run 'apt autoremove'"
+print_message "${PURPLE}" "5. Exit"
+echo
+read -p "Enter your choice: " choice
+
+case $choice in
+1) list_security_updates ;;
+2) apply_security_updates ;;
+3) perform_autoclean ;;
+4) perform_autoremove ;;
+5) exit_message ;;
+*)
+    print_message "${RED}" "Invalid option. Please try again."
+    press_enter
+    ;;
+esac
 # Prints exit message on the end of the script
 exit_message
