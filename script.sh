@@ -94,10 +94,17 @@ print_linux_util_banner() {
     echo
 }
 
-# Run Ad Root
+# Function to check if the script is run with root privileges
 RUN_AS_ROOT() {
-    sudo "$0" "$@"
-    echo "hello hello"
+    if [ "$EUID" -ne 0 ]; then
+        if [ "$1" = "--root" ] || [ "$1" = "-r" ]; then
+            print_linux_util_banner
+            sudo "$0" "$@"
+            exit
+        fi
+        print_message "$RED" "This script must be run as root."
+        exit 1
+    fi
 }
 
 ##########################################################################
@@ -119,16 +126,18 @@ show_help() {
     print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
     echo
     echo
+    exit 1
 }
 
 # Check for command-line options
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     -h | --help) show_help ;;
-    -r | --root) RUN_AS_ROOT ;;
+    -r | --root) RUN_AS_ROOT "$1" ;;
     -v | --version) show_version ;;
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
+        exit 1
         ;;
     esac
     shift
@@ -138,7 +147,9 @@ done
 # Main script logic goes here
 ##########################################################################
 
+# Check if the script is run with root privileges
+RUN_AS_ROOT
 print_linux_util_banner
-echo "hello"
+echo "Main Script"
 press_enter
 exit_message
