@@ -172,6 +172,41 @@ perform_autoclean() {
     exit
 }
 
+# Function to perform apt autoremove with improved formatting
+perform_autoremove() {
+    print_linux_util_banner
+    print_message "$GREEN" "Running 'apt autoremove'..."
+
+    # Run apt autoremove and filter out the warning
+    autoremove_output=$(sudo apt autoremove -y 2>&1 | grep -v 'WARNING: apt does not have a stable CLI interface.')
+
+    # Extract and display the relevant information with improved formatting
+    echo -e "$autoremove_output" | awk '
+        BEGIN { RS=""; FS="\n" }
+        {
+            packages_removed = 0
+            for (i = 1; i <= NF; i++) {
+                if ($i ~ /The following packages will be REMOVED:/) {
+                    print "\033[32m" "The following packages will be REMOVED:" "\033[0m"
+                    packages_removed = 1
+                } else if (packages_removed && $i ~ /^[[:space:]]/) {
+                    if ($i ~ /^Reading package lists/ || $i ~ /^Building dependency tree/ || $i ~ /^Reading state information/ || $i ~ /^0 upgraded, 0 newly installed, 0 to remove and 34 not upgraded/) {
+                        # Ignore these lines
+                    } else {
+                        print "\033[31m" $i "\033[0m"
+                    }
+                }
+            }
+            if (packages_removed) {
+                print "\n\033[32m" "0 upgraded, 0 newly installed, 0 to remove and 34 not upgraded." "\033[0m\n"
+            }
+        }
+    '
+
+    print_message "$GREEN" "'apt autoremove' completed successfully."
+    exit
+}
+
 ##########################################################################
 # Help Menu and Flags
 ##########################################################################
@@ -191,10 +226,8 @@ show_help() {
     print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
     print_message "${YELLOW}" "  -a, --apply${NC}      Apply Updates"
     print_message "${YELLOW}" "  -c, --clean${NC}      Auto Clean"
+    print_message "${YELLOW}" "  -d, --remove${NC}     Auto Remove"
     print_message "${YELLOW}" "  -l, --list${NC}       Display list of available packages to update"
-
-    echo
-    echo
     exit 1
 }
 
@@ -207,6 +240,7 @@ while [[ "$#" -gt 0 ]]; do
     -l | --list) list_security_updates ;;
     -a | --apply) apply_security_updates ;;
     -c | --clean) perform_autoclean ;;
+    -d | --remove) perform_autoremove ;;
 
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
