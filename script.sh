@@ -146,10 +146,12 @@ done
 ##########################################################################
 # Main script logic goes here
 ##########################################################################
-
 # Check if the script is run with root privileges
 RUN_AS_ROOT
+# Prints Banner
 print_linux_util_banner
-echo "Main Script"
+echo "Main Script Logic Goes Here"
+# Main Script Logic Goes Here
 press_enter
+# Prints exit message on the end of the script
 exit_message
