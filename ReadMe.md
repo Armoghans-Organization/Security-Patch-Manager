@@ -19,9 +19,16 @@ Security-Patch-Manager is a Bash script designed to streamline the process of ma
 
 ## Flags
 
-  - `-h, --help:` Show help message.
-  - `-r, --root:` Run the script as root.
-  - `-v, --version:` Display script version.
+| Flag           | Description                              |
+| -------------- | ---------------------------------------- |
+| `-h, --help`   | Show help message.                       |
+| `-r, --root`   | Run the script as root.                  |
+| `-v, --version`| Display script version.                  |
+| `-l, --list`   | List available security updates.         |
+| `-a, --apply`  | Apply security updates.                  |
+| `-c, --clean`  | Run 'apt autoclean'.                     |
+| `-d, --remove` | Run 'apt autoremove'.                    |
+
 
 ## Functions
 
