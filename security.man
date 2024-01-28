@@ -1,15 +1,15 @@
-.TH Script 1 "January 2024" "Version 1.0" "Script Manual"
+.TH Security-Patch-Manager " January 2024" "Version 1.0.0" "Security-Patch-Manager Manual"
 
 .SH NAME
-.B Script
-\- A script for some purpose
+.B Security-Patch-Manager
+\- Manage Security Updates
 
 .SH SYNOPSIS
 .B Script
 [\-h | \-\-help] [\-\-root] [\-\-version]
 
 .SH DESCRIPTION
-This script does something useful.
+Security-Patch-Manager is a Bash script designed to streamline the process of managing system security updates on Linux-based environments.
 
 .SH OPTIONS
 .TP
@@ -28,7 +28,7 @@ Display the script version.
 Written by Armoghan-ul-Mohmin.
 
 .SH REPORTING BUGS
-Report bugs to <your_email@example.com>.
+Report bugs to https://github.com/Armoghans-Organization/Security-Patch-Manager/issues.
 
 .SH COPYRIGHT
 This is free software: you are free to change and redistribute it.
