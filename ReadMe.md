@@ -11,6 +11,9 @@
 - [Overview](#overview)
 - [Flags](#flags)
 - [Functions](#functions)
+- [Contributing](#contributing)
+- [License](#license)
+
 
 ## Overview
 
@@ -41,3 +44,11 @@ Security-Patch-Manager is a Bash script designed to streamline the process of ma
 - **print_linux_util_banner:** Print the Linux-Util banner.
 
 
+
+## Contributing
+
+Feel free to contribute by submitting issues or pull requests.
+
+## License
+
+This project is licensed under the [MIT License](https://github.com/Armoghans-Organization/Security-Patch-Manager/blob/main/LICENSE).
