@@ -24,6 +24,21 @@ Run the script with root privileges.
 .B \-v ,\--version
 Display the script version.
 
+.TP
+.B \-l ,\--list
+Display list of available packages to update.
+
+.TP
+.B \-d ,\--remove
+Auto Remove.
+
+.TP
+.B \-c ,\--clean
+Auto Clean.
+
+.TP
+.B \-a ,\--apply
+Apply Updates.
 .SH AUTHOR
 Written by Armoghan-ul-Mohmin.
 
