@@ -161,6 +161,17 @@ apply_security_updates() {
     exit
 }
 
+# Function to perform apt autoclean
+perform_autoclean() {
+    print_message "$GREEN" "Running 'apt autoclean'..."
+    # Run apt autoclean and filter out the warning
+    autoclean_output=$(sudo apt autoclean 2>&1 | grep -v 'WARNING: apt does not have a stable CLI interface.')
+    # Display the results in tabular form with colors
+    echo "$autoclean_output" | awk '{ print "\033[32m" $0 "\033[0m" }' | column -t
+    print_message "$GREEN" "'apt autoclean' completed successfully."
+    exit
+}
+
 ##########################################################################
 # Help Menu and Flags
 ##########################################################################
@@ -179,6 +190,7 @@ show_help() {
     print_message "${YELLOW}" "  -r, --root${NC}       Run the script as root"
     print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
     print_message "${YELLOW}" "  -a, --apply${NC}      Apply Updates"
+    print_message "${YELLOW}" "  -c, --clean${NC}      Auto Clean"
     print_message "${YELLOW}" "  -l, --list${NC}       Display list of available packages to update"
 
     echo
@@ -194,6 +206,8 @@ while [[ "$#" -gt 0 ]]; do
     -v | --version) show_version ;;
     -l | --list) list_security_updates ;;
     -a | --apply) apply_security_updates ;;
+    -c | --clean) perform_autoclean ;;
+
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
         exit 1
