@@ -118,6 +118,49 @@ list_security_updates() {
     exit
 }
 
+# Function to apply security updates with live progress bar
+apply_security_updates() {
+    print_linux_util_banner
+    print_message "$GREEN" "Applying security updates..."
+
+    # Run apt update in the background
+    sudo apt update >/dev/null 2>&1 &
+    update_pid=$!
+
+    # Initialize variables
+    progress_bar=""
+    percentage=0
+    width=100 # Adjust the width of the progress bar
+
+    # Display a live progress bar while waiting for apt update to finish
+    while kill -0 $update_pid 2>/dev/null; do
+        ((percentage++))
+        if [ "$percentage" -gt "$width" ]; then
+            break
+        fi
+        progress_bar+="="
+        printf "\r[%-${width}s] %d%%" "$progress_bar" "$percentage"
+        sleep 1
+    done
+
+    # Complete the progress bar to 100%
+    while [ "$percentage" -lt "$width" ]; do
+        ((percentage++))
+        progress_bar+="="
+        printf "\r[%-${width}s] %d%%" "$progress_bar" "$percentage"
+        sleep 0.1
+    done
+    # Run apt upgrade with progress display
+    upgrade_output=$(sudo apt upgrade -y 2>&1)
+
+    # Filter out the warning and add colors
+    filtered_output=$(echo "$upgrade_output" | grep -v 'WARNING: apt does not have a stable CLI interface.')
+    print_message "$GREEN" "$filtered_output"
+
+    print_message "$GREEN" "Security updates applied successfully."
+    exit
+}
+
 ##########################################################################
 # Help Menu and Flags
 ##########################################################################
@@ -135,6 +178,9 @@ show_help() {
     print_message "${YELLOW}" "  -h, --help${NC}       Show this help message"
     print_message "${YELLOW}" "  -r, --root${NC}       Run the script as root"
     print_message "${YELLOW}" "  -v, --version${NC}    Display script version"
+    print_message "${YELLOW}" "  -a, --apply${NC}      Apply Updates"
+    print_message "${YELLOW}" "  -l, --list${NC}       Display list of available packages to update"
+
     echo
     echo
     exit 1
@@ -147,6 +193,7 @@ while [[ "$#" -gt 0 ]]; do
     -r | --root) RUN_AS_ROOT "$1" ;;
     -v | --version) show_version ;;
     -l | --list) list_security_updates ;;
+    -a | --apply) apply_security_updates ;;
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
         exit 1
