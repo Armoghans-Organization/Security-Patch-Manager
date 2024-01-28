@@ -107,6 +107,17 @@ RUN_AS_ROOT() {
     fi
 }
 
+# Function to list available security updates
+list_security_updates() {
+    print_linux_util_banner
+    print_message "$CYAN" "Listing available security updates..."
+    print_message "$NC" "----------------------------------------"
+    echo
+    # List security updates with colors
+    sudo apt list --upgradable 2>/dev/null | awk -F/ 'BEGIN {OFS="\t"} { printf "%-40s%-25s%-25s\n", $1, $2, $3 }' | column -t -s $'\t' | awk '{ printf "\033[32m%-40s\033[0m\t\033[33m%-25s\033[0m\t\033[34m%-25s\033[0m\n", $1, $2, $3 }'
+    exit
+}
+
 ##########################################################################
 # Help Menu and Flags
 ##########################################################################
@@ -135,6 +146,7 @@ while [[ "$#" -gt 0 ]]; do
     -h | --help) show_help ;;
     -r | --root) RUN_AS_ROOT "$1" ;;
     -v | --version) show_version ;;
+    -l | --list) list_security_updates ;;
     *)
         print_message "${RED}" "Unknown option: $1. Use -h or --help for help." >&2
         exit 1
