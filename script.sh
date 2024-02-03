@@ -108,6 +108,18 @@ RUN_AS_ROOT() {
     fi
 }
 
+# Check if User has working internet connection or not 
+internet_connection(){
+ ping -q -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
+ if [ $? -eq 0 ]; then
+     print_message "${GREEN}" "Internet connection is working."
+     echo
+     else
+      print_message "${RED}" "No internet connection." 
+      exit
+    fi
+}
+
 # Function to list available security updates
 list_security_updates() {
     print_linux_util_banner
@@ -258,6 +270,8 @@ done
 RUN_AS_ROOT
 # Prints Banner
 print_linux_util_banner
+# Working Internet Connection
+internet_connection
 print_message "${BLUE}" "Select an option:"
 print_message "${PURPLE}" "1. List available security updates"
 print_message "${PURPLE}" "2. Apply security updates"
