@@ -108,15 +108,15 @@ RUN_AS_ROOT() {
     fi
 }
 
-# Check if User has working internet connection or not 
-internet_connection(){
- ping -q -c 1 -W 1 8.8.8.8 > /dev/null 2>&1
- if [ $? -eq 0 ]; then
-     print_message "${GREEN}" "Internet connection is working."
-     echo
-     else
-      print_message "${RED}" "No internet connection." 
-      exit
+# Check if User has working internet connection or not
+internet_connection() {
+    ping -q -c 1 -W 1 8.8.8.8 >/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+        print_message "${GREEN}" "Internet connection is working."
+        echo
+    else
+        print_message "${RED}" "No internet connection."
+        exit
     fi
 }
 
