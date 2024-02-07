@@ -11,6 +11,7 @@
 
 
 - [Overview](#overview)
+- [Dependencies](#dependencies)
 - [Flags](#flags)
 - [Functions](#functions)
 - [Contributing](#contributing)
@@ -20,6 +21,22 @@
 ## Overview
 
 Security-Patch-Manager is a Bash script designed to streamline the process of managing system security updates on Linux-based environments. With a focus on simplicity and efficiency, this script automates the tasks of checking for available updates, displaying relevant information, and applying updates when desired.
+
+## Dependencies
+
+The following dependencies are required to run the Security Patch Manager script:
+
+- **awk**: A programming language and utility for pattern scanning and processing. It's used in various parts of the script for text processing.
+
+- **column**: A command-line utility to format its input into multiple columns. It's used to format the output of certain commands for better readability.
+
+- **ping**: A command-line utility to test the reachability of a host on an IP network. In the script, it's used to check for an active internet connection.
+
+- **sudo**: A command-line utility that allows a permitted user to execute a command as the superuser or another user. It's used to run certain commands with elevated privileges.
+
+- **apt**: The package management tool for Debian-based Linux distributions like Ubuntu. It's used to update, upgrade, and manage software packages.
+
+Make sure these dependencies are installed on your system. Most Linux distributions come with these utilities pre-installed, but if any of them are missing, you can install them using your package manager. For example, on Ubuntu, you can install missing dependencies.
 
 
 ## Flags
