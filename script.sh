@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #
 # This bash script allows checking and applying system security updates.
 #
@@ -33,6 +34,10 @@ Version="1.0.0"
 Description="Manage Security Updates"
 # Script URL
 URL="https://github.com/Armoghans-Organization/Security-Patch-Manager"
+
+# Set up log directory
+LOG_DIR="logs"
+mkdir -p "$LOG_DIR" # Create the log directory if it doesn't exist
 ##########################################################################
 # Functions
 ##########################################################################
@@ -42,6 +47,13 @@ print_message() {
     local COLOR=$1
     local MESSAGE=$2
     echo -e "${COLOR}${MESSAGE}${NC}"
+}
+
+# Function to log messages
+log_message() {
+    local LOG_FILE="$LOG_DIR/$1.log"
+    local MESSAGE=$2
+    echo "$(date +"%Y-%m-%d %T") - $MESSAGE" >>"$LOG_FILE"
 }
 
 # Function to display exit message
@@ -126,6 +138,11 @@ list_security_updates() {
     print_message "$CYAN" "Listing available security updates..."
     print_message "$NC" "----------------------------------------"
     echo
+    # Call log_message function to log command execution
+    log_message "update" "Executing 'sudo apt update' command."
+    # Execute the command in the background, redirecting output to log file
+    sudo apt update 2>&1 | grep -v 'WARNING: apt does not have a stable CLI interface.' >>"$LOG_DIR/update.log" &
+    sudo apt list --upgradable 2>/dev/null | awk -F/ 'BEGIN {OFS="\t"} { printf "%-40s%-25s%-25s\n", $1, $2, $3 }' | column -t -s $'\t' | awk '{ print $1, $2, $3 }' >>"$LOG_DIR/update.log" &
     # List security updates with colors
     sudo apt list --upgradable 2>/dev/null | awk -F/ 'BEGIN {OFS="\t"} { printf "%-40s%-25s%-25s\n", $1, $2, $3 }' | column -t -s $'\t' | awk '{ printf "\033[32m%-40s\033[0m\t\033[33m%-25s\033[0m\t\033[34m%-25s\033[0m\n", $1, $2, $3 }'
     exit
